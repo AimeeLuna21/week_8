@@ -1,0 +1,61 @@
+**Q0.** Please answer the following questions in your own words.
+
+1. What makes a model "linear"? "Linear" in what?
+Linear means that things are multiplied and added; so we have inputs (x) and multiplying by numbers (weights) and then adding everything together.
+Thus a model is linear when it only uses multiplication and addition to combine inputs and weights. 
+All the features involved are multiplied by a coefficient and then they are all added together to make a prediction.
+There are no powers, or other complicated operations so "linear" describes the structure of how the model combines its inputs. 
+
+2. How do you interpret the coefficient for a dummy/one-hot-encoded variable? 
+(This is a trick question, and the trick involves how you handle the intercept of the model.) 
+There's further explanation at the end of this document, if needed.
+
+- when using dummy (one-hot) variables we are turning the variables into 0s and 1s
+- the coefficient tells me how much the prediction changes compared to the reference (baseline) category
+- because of the intercept, one category is treated as the baseline; if drop_first=True that dropped category = baseline so the intercept represent that baseline group
+- ex. y = b +w1 times Gender_Male so if Gender_Male = 0 --> prediction = baseline (Female) = baseline
+
+Thus the coefficient for a dummy variable represents the change in the prediction compared to a baseline category. When using one-hot encoding with drop_first=True, one category is left out and becomes the reference group.
+Because the model includes an intercept, the intercept represents the prediction for that baseline category. The coefficient of a dummy variable then tells one how much the prediction increases or decreases when switching from the baseline group to that category.
+So, a dummy variable coefficient should always be interpreted relative to the omitted (reference) category, not on its own.
+
+3. Can linear regression be used for classification? Explain why, or why not.
+- linear regression is designed to predict continous variable
+- classification is about predicting catrgories (0 or 1, yes/np)
+
+Linear regression can technically be used for classification. Linear regression is designed to model a relationship between variables and predict a continuous outcome, not categories.
+One problem is that the model can produce predictions outside the range of 0 and 1, which do not make sense for classification tasks. It also minimizes squared error, which is better suited for continuous predictions rather than deciding between classes.
+Because of these issues, linear regression is not ideal for classification.
+
+4. If you have a high accuracy on training but low on testing, what might be the problem? 
+It also might be you see a pattern in the residuals. 
+- High training accuracy + low testing accuracy = the model memorized the training data but doesn’t generalize
+- Pattern in residuals = model is missing something (not capturing the true relationship)
+
+If a model has high accuracy on the training data but low accuracy on the testing data, the main issue is likely overfitting. This means the model has learned the training data too closely, including noise, and does not generalize well to new data.
+If there is also a pattern in the residuals, it suggests that the model is not capturing the true relationship in the data. Ideally, residuals should be randomly scattered, so a pattern indicates that the model may be too simple or missing important variables.
+Overall, the problem is that the model is not generalizing well and may need to be adjusted to better fit the structure of the data.
+
+5. Review this page: [Non-Linear with Linear](https://inria.github.io/scikit-learn-mooc/python_scripts/linear_regression_non_linear_link.html)
+What are two ways to incorporate nonlinear relationships between your target/response/dependent/outcome variable y 
+and your features/control/response/independent variables x?
+
+Even though linear regression only fits a straight line, you can still handle nonlinear relationships by:
+- Changing the features (feature engineering)
+- Using kernels (like in SVMs)
+So the model stays “linear,” but the overall system becomes nonlinear
+
+Two ways to incorporate nonlinear relationships are by engineering new features and by using kernels.
+First, you can create new features from the original ones, such as adding squared or higher-order terms (like x^2 or x^3). This allows a linear model to capture nonlinear patterns by transforming the input data.
+Second, you can use kernel methods, which allow the model to learn nonlinear relationships by comparing data points in a more flexible way instead of relying on a single straight-line relationship.
+Both approaches allow a linear model to handle nonlinear relationships, either by modifying the inputs or by changing how the model learns from the data.
+
+6. What is the interpretation of the intercept? A slope coefficient 
+for a variable? The coefficient for a dummy/one-hot-encoded variable?
+- Intercept = baseline (when X = 0)
+- Slope = change per unit
+- Dummy = difference from baseline
+
+The intercept represents the predicted value of the target variable when all input variables are equal to zero. It is the baseline starting point of the model.
+A slope coefficient for a variable represents how much the prediction changes when that variable increases by one unit, while holding all other variables constant.
+The coefficient for a dummy or one-hot-encoded variable represents the difference in the prediction compared to a baseline (reference) category. The intercept corresponds to the baseline group, and the dummy variable coefficient shows how much the prediction changes when switching from the baseline to that category.
